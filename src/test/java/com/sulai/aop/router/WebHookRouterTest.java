@@ -16,7 +16,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
  * @Version:1.0.0
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureWebTestClient(timeout = "60000")
+@AutoConfigureWebTestClient(timeout = "600000")
 public class WebHookRouterTest {
 
     @Autowired
@@ -49,6 +49,17 @@ public class WebHookRouterTest {
         webTestClient.post()
                 .uri(contentPath+"/pushTask")
                 .contentType(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody().consumeWith(System.out::print);
+
+    }
+
+    @Test
+    void mappingDict() {
+        webTestClient.get()
+                .uri(contentPath+"/mapping/dict")
                 .exchange()
                 .expectStatus()
                 .isOk()
